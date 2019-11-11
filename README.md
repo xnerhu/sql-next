@@ -1,2 +1,2 @@
-# sql.js
-🔎 Create sql queries with json!
+# sql-next
+🔎 An api wrapper around node-mysql
