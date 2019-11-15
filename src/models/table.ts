@@ -31,16 +31,16 @@ export class Table<T = any> {
     return count;
   }
 
+  public async insert(items: T[]) {
+    const promises = items.map(r => this.insertOne(r));
+
+    return Promise.all(promises);
+  }
+
   public async insertOne(item: T) {
     const sql = `INSERT INTO ${this._name} ${createValuesQuery(item)}`;
     const { insertId } = await this._db.query<IOperationRes>(sql);
 
     return { ...item, _id: insertId };
-  }
-
-  public async insertMany(items: T[]) {
-    const promises = items.map(r => this.insertOne(r));
-
-    return Promise.all(promises);
   }
 }
