@@ -1,4 +1,7 @@
-# SQL-next
+<div align="center">
+  <img src="static/logo.png" width="256">
+
+  <br />
 
 [![Travis](https://img.shields.io/travis/xnerhu/sql-next.svg?style=flat-square)](https://travis-ci.org/xnerhu/sql-next.svg)
 [![NPM](https://img.shields.io/npm/v/sql-next.svg?style=flat-square)](https://www.npmjs.com/package/sql-next)
@@ -17,6 +20,7 @@ SQL-next is a wrapper around [node-mysql](https://github.com/mysqljs/mysql), whi
 ### Features
 
 - JSON queries
+- Protection from sql-injection
 - Selectors _(not yet done)_
 - Promise based api
 
