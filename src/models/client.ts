@@ -41,13 +41,6 @@ export class Client {
     });
   }
 
-  public async switchDb(db: string) {
-    if (this._currentDb !== db) {
-      this._currentDb = db;
-      await this.switchUser({ database: db });
-    }
-  }
-
   public query<T>(sql: string): Promise<T> {
     return new Promise((resolve, reject) => {
       this._connection.query(sql, (err, res) => {

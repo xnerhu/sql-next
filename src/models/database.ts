@@ -1,3 +1,5 @@
+import { escapeId } from 'mysql';
+
 import { Client } from './client';
 import { Table } from './table';
 import { ITablesRes } from '../interfaces';
@@ -5,10 +7,11 @@ import { ITablesRes } from '../interfaces';
 export class Database {
   protected _tables = new Map<string, Table>();
 
-  constructor(public name: string, protected _client: Client) { };
+  constructor(public name: string, protected _client: Client) {
+    this.name = escapeId(name);
+  }
 
-  public async query<T>(sql: string) {
-    await this._client.switchDb(this.name);
+  public query<T>(sql: string) {
     return this._client.query<T>(sql);
   }
 
