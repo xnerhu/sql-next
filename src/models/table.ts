@@ -30,4 +30,10 @@ export class Table<T = any> {
 
     return { ...item, _id: insertId };
   }
+
+  public async insertMany(items: T[]) {
+    const promises = items.map(r => this.insertOne(r));
+
+    return Promise.all(promises);
+  }
 }
