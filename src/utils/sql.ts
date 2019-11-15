@@ -1,4 +1,4 @@
-import { escape } from 'mysql';
+import { escape, escapeId } from 'mysql';
 
 import { IQueryFilter, IQueryOptions } from '../interfaces';
 
@@ -19,7 +19,7 @@ export const createFilterQuery = (filter: IQueryFilter<any>, _deep = false) => {
       value = (value as any).toString().slice(1, -1);
     }
 
-    return `${r} ${char} ${escape(value)}`
+    return `${escapeId(r)} ${char} ${escape(value)}`
   });
 
   if (andArgs.length) {
@@ -44,8 +44,6 @@ export const createFilterQuery = (filter: IQueryFilter<any>, _deep = false) => {
     sql = `WHERE ${sql}`;
   }
 
-  if (!_deep) console.log(sql);
-
   return sql;
 }
 
@@ -61,6 +59,24 @@ export const createOptionsQuery = (options: IQueryOptions) => {
 
   if (offset) {
     sql += `OFFSET ${escape(offset)} `;
+  }
+
+  return sql;
+}
+
+export const createValuesQuery = (item: any) => {
+  const keys = Object.keys(item);
+
+  if (!keys.length) return '';
+
+  let sql = 'SET ';
+
+  for (let i = 0; i < keys.length; i++) {
+    sql += `${escapeId(keys[i])} = ${escape(item[keys[i]])}`;
+
+    if (i !== keys.length - 1) {
+      sql += ', ';
+    }
   }
 
   return sql;

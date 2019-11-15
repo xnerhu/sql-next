@@ -1,5 +1,6 @@
 import { Client } from './client';
 import { Table } from './table';
+import { ITablesRes } from '../interfaces';
 
 export class Database {
   protected _tables = new Map<string, Table>();
@@ -12,8 +13,9 @@ export class Database {
   }
 
   public async tables() {
-    const res = await this.query('show tables');
-    return res.map((r: string) => Object.values(r)[0]);
+    const res = await this.query<ITablesRes>('show tables');
+
+    return res.map(r => Object.values(r)[0]);
   }
 
   public table<T>(name: string): Table<T> {

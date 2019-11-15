@@ -1,6 +1,6 @@
-import { IQueryFilter, IQueryOptions } from '../interfaces';
+import { IQueryFilter, IQueryOptions, IOperationRes } from '../interfaces';
 import { Database } from './database';
-import { createFilterQuery, createOptionsQuery } from '../utils';
+import { createFilterQuery, createOptionsQuery, createValuesQuery } from '../utils';
 
 export class Table<T = any> {
   constructor(public name: string, protected _db: Database) { };
@@ -8,7 +8,7 @@ export class Table<T = any> {
   public async find(filter?: IQueryFilter<T>, options?: IQueryOptions) {
     const sql = `SELECT * FROM ${this.name} ${createFilterQuery(filter)} ${createOptionsQuery(options)}`;
 
-    return this._db.query<T>(sql);
+    return this._db.query<T[]>(sql);
   }
 
   public async findOne(filter?: IQueryFilter<T>) {
@@ -17,10 +17,17 @@ export class Table<T = any> {
     return res;
   }
 
-  public async count(filter?: IQueryFilter<T>) {
+  public async count(filter?: IQueryFilter<T>): Promise<number> {
     const sql = `SELECT COUNT(*) as count FROM ${this.name} ${createFilterQuery(filter)}`;
-    const [{ count }] = await this._db.query<any>(sql);
+    const [{ count }] = await this._db.query(sql);
 
     return count;
+  }
+
+  public async insertOne(item: T) {
+    const sql = `INSERT INTO ${this.name} ${createValuesQuery(item)}`;
+    const { insertId } = await this._db.query<IOperationRes>(sql);
+
+    return { ...item, _id: insertId };
   }
 }

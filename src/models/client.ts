@@ -48,7 +48,7 @@ export class Client {
     }
   }
 
-  public query<T>(sql: string): Promise<T[]> {
+  public query<T>(sql: string): Promise<T> {
     return new Promise((resolve, reject) => {
       this._connection.query(sql, (err, res) => {
         if (err) reject(err);
