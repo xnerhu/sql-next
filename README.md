@@ -36,7 +36,7 @@ $ npm install sql-next
 
 An example of finding an item:
 
-```js
+```ts
 import { Client, IConfig } from 'sql-next';
 
 const config: IConfig = {
@@ -60,7 +60,7 @@ async function init() {
   console.log('Connected!');
 
   const db = client.db('name');
-  const table = db.table < Item > 'tests';
+  const table = db.table<Item>('tests');
 
   const item = await table.findOne({ _id: 2 });
 
