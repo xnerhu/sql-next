@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="static/logo.png">
+  <img src="https://wexond.net/public/sql-next-logo.png" width="512">
 
   <br />
 
