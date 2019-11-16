@@ -427,7 +427,7 @@ There are other selectors as well.
 
 #### `$or`
 
-This will search for the items with `_authorId` = _2_ and category _1_ or _2_.
+This will search for the items with `_authorId` = _2_ and `_categoryId` = _1_ or _2_.
 
 ```ts
 table.find({
