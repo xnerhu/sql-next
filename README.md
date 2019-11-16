@@ -60,7 +60,7 @@ async function init() {
   console.log('Connected!');
 
   const db = client.db('name');
-  const table = db.table < Item > 'tests';
+  const table = db.table<Item> 'tests';
 
   const item = await table.findOne({ _id: 2 });
 
