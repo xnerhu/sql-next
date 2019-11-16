@@ -111,6 +111,10 @@ Interfaces:
 - [`IQuerySelector`](#querySelector)
 - [`IQueryOptions`](#queryOptions)
 
+## Other
+
+- [`Advanced filtering`](#advancedFiltering)
+
 ### Class `Client`
 
 #### Methods
@@ -390,4 +394,44 @@ export interface IQuerySelector<T> {
 export interface IQueryOptions {
   limit?: number;
   offset?: number;
+```
+
+## Other
+
+<a name="advancedFiltering"></a>
+
+### Advanced filtering
+
+Let's say we want to find a group of items with `_authorId` field equals to _2_.
+
+We can do it like this:
+
+```ts
+const table = db.table('news');
+
+table.find({ _authorId: 2 });
+```
+
+And what if we want `_categoryId` to be _1_.
+
+```ts
+table.find({
+  _authorId: 2,
+  _categoryId: 1,
+});
+```
+
+You can see, that combining properties together works as **AND** selector.
+
+There are other selectors as well.
+
+#### `$or`
+
+This will search for the items with `_authorId` = _2_ and category _1_ or _2_.
+
+```ts
+table.find({
+  _authorId: 2,
+  $or: [{ _categoryId: 1 }, { _categoryId: 2 }],
+});
 ```
