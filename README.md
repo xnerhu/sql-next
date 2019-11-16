@@ -37,9 +37,9 @@ $ npm install sql-next
 An example of finding an item:
 
 ```js
-import { Client, IConnectionConfig } from 'sql-next';
+import { Client, IConfig } from 'sql-next';
 
-const config: IConnectionConfig = {
+const config: IConfig = {
   host: 'example.com',
   user: 'username',
   password: '123',
@@ -60,7 +60,7 @@ async function init() {
   console.log('Connected!');
 
   const db = client.db('name');
-  const table = db.table<Item> 'tests';
+  const table = db.table < Item > 'tests';
 
   const item = await table.findOne({ _id: 2 });
 
@@ -103,13 +103,21 @@ Class `Table`:
 - [`Table.insertOne`](#tableInsertOne)
 - [`Table.insert`](#tableInsert)
 
+Interfaces:
+
+- [`IConfig`](#config)
+- [`ISSLConfig`](#sslConfig)
+- [`IQueryFilter`](#queryFilter)
+- [`IQuerySelector`](#querySelector)
+- [`IQueryOptions`](#queryOptions)
+
 ### Class `Client`
 
 #### Methods
 
 <a name="clientConnect"></a>
 
-- `Client.connect(config: string | IConnectionConfig): Promise<any[]>`
+- `Client.connect(config: string | IConfig): Promise<any[]>`
   <br />
   Connects to mysql server.
   <br />
@@ -311,3 +319,75 @@ Class `Table`:
 #### Properties
 
 - `Table.name`
+
+<a name="config"></a>
+
+### Interface `IConfig`
+
+```ts
+interface IConfig {
+  user?: string;
+  password?: string;
+  port?: number;
+  ssl?: ISSLConfig;
+  charset?: string;
+  insecureAuth?: boolean;
+  socketPath?: string;
+  debug?: boolean | string[];
+  bigNumberStrings?: boolean;
+  connectTimeout?: number;
+  dateStrings?: boolean | ('TIMESTAMP' | 'DATETIME' | 'DATE')[];
+  host?: string;
+  localAddress?: string;
+  supportBigNumbers?: boolean;
+  timeout?: number;
+  timezone?: number;
+  trace?: boolean;
+}
+```
+
+<a name="sslConfig"></a>
+
+### Interface `ISSLConfig`
+
+```ts
+import { SecureContextOptions } from 'tls';
+
+export type ISSLConfig =
+  | string
+  | (SecureContextOptions & {
+      rejectUnauthorized?: boolean;
+    });
+```
+
+<a name="queryFilter"></a>
+
+### Interface `IQueryFilter`
+
+```ts
+export type IQueryFilter<T> = {
+  [P in keyof T]?: Partial<T[P]> | RegExp;
+} &
+  IQuerySelector<T>;
+```
+
+It means that for a type you pass, it will make every key optional and property as original or a regex expression. Also it will include selectors like `$or`.
+
+<a name="querySelector"></a>
+
+### Interface `IQuerySelector`
+
+```ts
+export interface IQuerySelector<T> {
+  $or?: IQueryFilter<T>[];
+```
+
+<a name="queryOptions"></a>
+
+### Interface `IQueryOptions`
+
+```ts
+export interface IQueryOptions {
+  limit?: number;
+  offset?: number;
+```

@@ -1,14 +1,14 @@
 import { Connection, createConnection, ConnectionOptions } from 'mysql';
 
 import { Database } from './database';
-import { IConnectionConfig } from '../interfaces';
+import { IConfig } from '../interfaces';
 
 export class Client {
   protected _connection: Connection;
 
   protected _currentDb: string;
 
-  public connect(config: string | IConnectionConfig): Promise<any[]> {
+  public connect(config: string | IConfig): Promise<any[]> {
     this._connection = createConnection(config);
 
     return new Promise((resolve, reject) => {

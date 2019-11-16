@@ -1,5 +1,5 @@
 export interface IQuerySelector<T> {
-  $or?: Array<IQueryFilter<T>>;
+  $or?: IQueryFilter<T>[];
 }
 
 export type IQueryFilter<T> = {
