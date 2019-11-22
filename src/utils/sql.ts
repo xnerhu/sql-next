@@ -53,16 +53,16 @@ export const createOptionsQuery = (options: IQueryOptions<any>) => {
   let sql = '';
   const { limit, offset, sort } = options;
 
+  if (sort) {
+    sql += createSortQuery(sort) + ' ';
+  }
+
   if (limit) {
     sql += `LIMIT ${escape(limit)} `;
   }
 
   if (offset) {
     sql += `OFFSET ${escape(offset)} `;
-  }
-
-  if (sort) {
-    sql += createSortQuery(sort);
   }
 
   return sql;
