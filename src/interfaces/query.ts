@@ -25,3 +25,5 @@ export interface IOperationRes {
 export type ITablesRes = {
   [key: string]: string;
 }[];
+
+export type IUpdateItem<T> = Partial<T>;
