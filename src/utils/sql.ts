@@ -1,6 +1,6 @@
 import { escape, escapeId } from 'mysql';
 
-import { IQueryFilter, IQueryOptions } from '../interfaces';
+import { IQueryFilter, IQueryOptions, ISortQuery } from '../interfaces';
 
 export const createFilterQuery = (filter: IQueryFilter<any>, _deep = false) => {
   if (!filter) return '';
@@ -47,11 +47,11 @@ export const createFilterQuery = (filter: IQueryFilter<any>, _deep = false) => {
   return sql;
 }
 
-export const createOptionsQuery = (options: IQueryOptions) => {
+export const createOptionsQuery = (options: IQueryOptions<any>) => {
   if (!options) return '';
 
   let sql = '';
-  const { limit, offset } = options;
+  const { limit, offset, sort } = options;
 
   if (limit) {
     sql += `LIMIT ${escape(limit)} `;
@@ -59,6 +59,10 @@ export const createOptionsQuery = (options: IQueryOptions) => {
 
   if (offset) {
     sql += `OFFSET ${escape(offset)} `;
+  }
+
+  if (sort) {
+    sql += createSortQuery(sort);
   }
 
   return sql;
@@ -80,4 +84,36 @@ export const createValuesQuery = (item: any) => {
   }
 
   return sql;
+}
+
+export const createSortQuery = (options: ISortQuery<any>) => {
+  let sql = 'ORDER BY ';
+  let ascSql = '';
+
+  const descKeys: string[] = [];
+  const ascKeys: string[] = [];
+
+  for (const key in options) {
+    const escaped = escapeId(key);
+
+    if (!options[key]) {
+      descKeys.push(escaped);
+    } else {
+      ascKeys.push(escaped);
+    }
+  }
+
+  if (!descKeys.length && !ascKeys.length) return '';
+
+  if (descKeys.length) {
+    sql += `${descKeys.join(', ')} DESC`;
+
+    if (ascKeys.length) sql += ', ';
+  }
+
+  if (ascKeys.length) {
+    ascSql += `${ascKeys.join(', ')} ASC`;
+  }
+
+  return sql + ascSql;
 }

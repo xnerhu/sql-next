@@ -6,9 +6,14 @@ export type IQueryFilter<T> = {
   [P in keyof T]?: Partial<T[P]> | RegExp;
 } & IQuerySelector<T>;
 
-export interface IQueryOptions {
+export type ISortQuery<T> = {
+  [P in keyof T]?: boolean;
+}
+
+export interface IQueryOptions<T> {
   limit?: number;
   offset?: number;
+  sort?: ISortQuery<T>;
 }
 
 export interface IOperationRes {

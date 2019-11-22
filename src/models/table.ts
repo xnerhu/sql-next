@@ -12,7 +12,7 @@ export class Table<T = any> {
     this.fullName = `${this._db.name}.${this.name}`;
   }
 
-  public async find(filter?: IQueryFilter<T>, options?: IQueryOptions) {
+  public async find(filter?: IQueryFilter<T>, options?: IQueryOptions<T>) {
     const sql = `SELECT * FROM ${this.fullName} ${createFilterQuery(filter)} ${createOptionsQuery(options)}`;
 
     return this._db.query<T[]>(sql);
