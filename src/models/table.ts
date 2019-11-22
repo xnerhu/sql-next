@@ -44,7 +44,7 @@ export class Table<T = any> {
     return { ...item, _id: insertId };
   }
 
-  public updateOne(filter: IQueryFilter<T>, update: IUpdateItem<T>) {
+  public update(filter: IQueryFilter<T>, update: IUpdateItem<T>) {
     const sql = `UPDATE ${this.fullName} ${createValuesQuery(update)} ${createFilterQuery(filter)}`;
 
     return this._db.query<IOperationRes>(sql);

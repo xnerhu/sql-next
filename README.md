@@ -102,6 +102,7 @@ Class `Table`:
 - [`Table.count`](#tableCount)
 - [`Table.insertOne`](#tableInsertOne)
 - [`Table.insert`](#tableInsert)
+- [`Table.update`](#tableUpdate)
 
 Interfaces:
 
@@ -259,7 +260,7 @@ Interfaces:
   const news = await table.find({ _authorId: 2 }, { offset: 2, limit: 10 });
   ```
 
-<a name="Table.findOne"></a>
+<a name="tableFindOne"></a>
 
 - `Table.findOne(filter?: IQueryFilter<T>): Promise<T[]>`
   <br />
@@ -272,7 +273,7 @@ Interfaces:
   const item = await table.findOne({ _id: 11 });
   ```
 
-<a name="Table.count"></a>
+<a name="tableCount"></a>
 
 - `Table.count(filter?: IQueryFilter<T>): Promise<number>`
   <br />
@@ -287,7 +288,7 @@ Interfaces:
   console.log(count); // 141
   ```
 
-<a name="Table.insert"></a>
+<a name="tableInsert"></a>
 
 - `Table.insert(items: T[]): Promise<T[]>`
   <br />
@@ -305,7 +306,7 @@ Interfaces:
   console.log(first._id, second._id); // 1, 2
   ```
 
-<a name="Table.insertOne"></a>
+<a name="tableInsertOne"></a>
 
 - `Table.insertOne(items: T): Promise<T>`
   <br />
@@ -318,6 +319,17 @@ Interfaces:
   const data = await table.insertOne({ title: 'Cooking tips' });
 
   console.log(data); // { _id: 3, title: 'Cooking tips' }
+  ```
+
+<a name="tableUpdate"></a>
+
+- `Table.update(filter: IQueryFilter<T>, update: IUpdateItem<T>): Promise<T>`
+  <br />
+  Updates every items matching `filter` and replaces their fields with `update`.
+  <br />
+
+  ```js
+  table.update({ _id: 1 }, { content: 'Hello world!' });
   ```
 
 #### Properties
