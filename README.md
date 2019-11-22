@@ -121,7 +121,7 @@ Interfaces:
 
 <a name="clientConnect"></a>
 
-- `Client.connect(config: string | IConfig): Promise<any[]>`
+- `Client.connect(config: string | IConfig)`
   <br />
   Connects to mysql server.
   <br />
@@ -147,7 +147,7 @@ Interfaces:
 
 <a name="clientClose"></a>
 
-- `Client.close(): Promise<any[]>`
+- `Client.close()`
   <br />
   Closes connection.
   <br />
@@ -172,7 +172,7 @@ Interfaces:
 
 <a name="clientSwitchUser"></a>
 
-- `Client.switchUser(config: ConnectionOptions): Promise<void>`
+- `Client.switchUser(config: ConnectionOptions)`
   <br />
   Reconnects with new user credentials.
   <br />

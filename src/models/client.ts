@@ -8,22 +8,22 @@ export class Client {
 
   protected _currentDb: string;
 
-  public connect(config: string | IConfig): Promise<any[]> {
+  public connect(config: string | IConfig): Promise<void> {
     this._connection = createConnection(config);
 
     return new Promise((resolve, reject) => {
-      this._connection.connect((err, ...args) => {
+      this._connection.connect(err => {
         if (err) reject(err);
-        resolve(args);
+        resolve();
       });
     });
   }
 
-  public close(): Promise<any[]> {
+  public close(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this._connection.end((err, args) => {
+      this._connection.end(err => {
         if (err) reject(err);
-        resolve(args);
+        resolve();
       });
     });
   }
