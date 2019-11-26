@@ -3,8 +3,14 @@ export interface IQuerySelector<T> {
 }
 
 export type IQueryFilter<T> = {
-  [P in keyof T]?: Partial<T[P]> | RegExp;
+  [P in keyof T]?: Partial<T[P]> | IQueryCondition<T[P]>;
 } & IQuerySelector<T>;
+
+export type IQueryCondition<T> = (T extends string ? IQueryFilterItem : never);
+
+export interface IQueryFilterItem {
+  $text?: string;
+}
 
 export type ISortQuery<T> = {
   [P in keyof T]?: boolean;

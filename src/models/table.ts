@@ -15,6 +15,8 @@ export class Table<T = any> {
   public async find(filter?: IQueryFilter<T>, options?: IQueryOptions<T>) {
     const sql = `SELECT * FROM ${this.fullName} ${createFilterQuery(filter)} ${createOptionsQuery(options)}`;
 
+    console.log(sql);
+
     return this._db.query<T[]>(sql);
   }
 

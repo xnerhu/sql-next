@@ -10,16 +10,19 @@ export const createFilterQuery = (filter: IQueryFilter<any>, _deep = false) => {
   const { $or } = filter;
 
   const andArgs = keys.filter(r => !r.startsWith('$')).map(r => {
-    let value: any | RegExp = filter[r];
-    let char = '=';
+    let value = filter[r] as string;
+    let prefix = '=';
 
-    if (value instanceof RegExp) {
-      char = 'REGEXP';
+    if (typeof filter[r] === 'object') {
+      const { $text } = filter[r];
 
-      value = (value as any).toString().slice(1, -1);
+      if ($text) {
+        prefix = 'LIKE';
+        value = `%${$text}%`;
+      }
     }
 
-    return `${escapeId(r)} ${char} ${escape(value)}`
+    return `${escapeId(r)} ${prefix} ${escape(value)}`
   });
 
   if (andArgs.length) {
